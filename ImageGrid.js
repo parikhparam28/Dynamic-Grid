@@ -87,7 +87,7 @@ export default ImageGridTemp = () => {
                     key={columns + rows}
                     data={images}
                     renderItem= {renderItem}
-                    columnWrapperStyle={ columns>1?.styles.columnWrapper}
+                    columnWrapperStyle={ columns>1 ? styles.columnWrapper : null}
                     contentContainerStyle={styles.contentContainer}
                     numColumns={columns}
                 />
