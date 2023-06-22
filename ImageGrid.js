@@ -47,6 +47,20 @@ export default ImageGridTemp = () => {
         setImageWidth(imageWidth); 
     } 
     
+    const onChangeText = (columns) => {
+        if(columns.length === 0)
+            columns="1";
+        setColumns(columns)                            
+        imageWidthHandler(columns);
+    }
+
+    const renderItem = ({item,index}) => {
+        console.log(item)
+        if(index < rows*columns)
+            return(<Image source={{uri: item.uri}} style={[styles.image, {height: imageWidth, width: imageWidth,}]}/>)
+        return null;
+    }
+
     return(
         <View style={styles.container}>
             <View>
@@ -54,12 +68,7 @@ export default ImageGridTemp = () => {
                     <Text style={styles.dirText}>Columns:</Text>
                     <TextInput
                         placeholder="Type column number"
-                        onChangeText={columns => {
-                            if(columns.length === 0)
-                                columns="1";
-                            setColumns(columns)                            
-                            imageWidthHandler(columns);
-                        }}
+                        onChangeText={onChangeText}
                         keyboardType='numeric'
                         maxLength={1} 
                     />
@@ -68,9 +77,7 @@ export default ImageGridTemp = () => {
                     <Text style={styles.dirText}>Rows:</Text>
                     <TextInput
                         placeholder="Type row number"
-                        onChangeText={(rows) =>
-                            setRows(rows)
-                        }
+                        onChangeText={setRows}
                         keyboardType='numeric'
                     />
                 </View>
@@ -79,12 +86,7 @@ export default ImageGridTemp = () => {
                 <FlatList
                     key={columns + rows}
                     data={images}
-                    renderItem= {({item,index}) => { 
-                        console.log(item)
-                        if(index < rows*columns)
-                            return(<Image source={{uri: item.uri}} style={[styles.image, {height: imageWidth, width: imageWidth,}]}/>)
-                        return null;
-                    }}
+                    renderItem= {renderItem}
                     columnWrapperStyle={ columns>1 ? styles.columnWrapper : null}
                     contentContainerStyle={styles.contentContainer}
                     numColumns={columns}
@@ -120,12 +122,6 @@ const styles = StyleSheet.create({
         paddingTop: 10,
     },
 })
-
-
-
-
-
-
 
 
 
